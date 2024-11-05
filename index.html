@@ -12,42 +12,39 @@
             line-height: 1.6;
             margin: 0;
             padding: 0;
+        }
+        [data-theme='light'] {
             background-color: #f4f4f4;
             color: #333;
         }
-        header {
+        [data-theme='dark'] {
             background-color: #333;
             color: #fff;
+        }
+        header {
             text-align: center;
             padding: 20px;
         }
-        h2, h3 {
+        header[data-theme='light'] {
+            background-color: #fff;
             color: #333;
         }
-        h3 {
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 10px;
+        header[data-theme='dark'] {
+            background-color: #111;
+            color: #fff;
         }
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        ul li {
-            padding: 5px 0;
-        }
-        a {
-            color: #3498db;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        .stats img {
+        button {
+            padding: 10px;
             margin: 10px;
-            border-radius: 8px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
         }
-        .container {
-            padding: 20px;
+        button:hover {
+            background-color: #2980b9;
         }
     </style>
 </head>
@@ -131,6 +128,30 @@
 
                 alert("已复制到剪贴板: " + textToCopy);
             });
+        });
+    </script>
+
+    <script>
+        const userPreferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        const body = document.body;
+
+        function applyTheme(theme) {
+            body.setAttribute('data-theme', theme);
+        }
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            applyTheme(savedTheme);
+        } else {
+            applyTheme(userPreferredTheme);
+        }
+
+        const toggleButton = document.getElementById('theme-toggle');
+        toggleButton.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
         });
     </script>
 
